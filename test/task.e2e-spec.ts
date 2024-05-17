@@ -1,5 +1,5 @@
 import { AppModule } from '../src/app.module';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { TaskService } from '../src/task/task.service';
 import { Test } from '@nestjs/testing';
 import { UserService } from '../src/user/user.service';
@@ -16,6 +16,7 @@ describe('TaskController', () => {
             app = await createNestApplication();
             taskService = app.get(TaskService);
             userService = app.get(UserService);
+            app.useGlobalPipes(new ValidationPipe());
 
             await app.init();
         });
@@ -66,7 +67,7 @@ describe('TaskController', () => {
             app = await createNestApplication();
             taskService = app.get(TaskService);
             userService = app.get(UserService);
-
+            app.useGlobalPipes(new ValidationPipe());
             await app.init();
         });
 
@@ -182,5 +183,5 @@ async function createUserUsing(
     email: string,
 ): Promise<any> {
     await userService.addUser(email);
-    return userService.getUser(email) as any;
+    return (await userService.getUser(email)) as any;
 }

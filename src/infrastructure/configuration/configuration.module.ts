@@ -4,7 +4,9 @@ import { Module } from '@nestjs/common';
 
 @Module({
     exports: [ConfigurationService],
-    imports: [ConfigModule.forRoot()],
+    imports: [
+        ConfigModule.forRoot(),
+    ],
     providers: [ConfigurationService],
 })
 export class ConfigurationModule {}
